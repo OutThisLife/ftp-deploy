@@ -9,9 +9,11 @@
     ],
     "license": "",
     "dependencies": {
-        "jsftp": "2.0.x",
         "async": "2.x.x",
+        "ftp-srv": "^2.10.0",
+        "jsftp": "2.0.x",
         "minimatch": "3.0.4",
+        "os": "^0.1.1",
         "read": "1.0.7"
     },
     "repository": {
@@ -24,7 +26,8 @@
     "engines": {
         "node": ">=4"
     },
-    "contributors": [{
+    "contributors": [
+        {
             "name": "Ondrej",
             "url": "https://github.com/der-On"
         },

@@ -1,32 +1,51 @@
-const path = require('path');
-const FtpDeploy = require('../ftp-deploy.js');
+const
+	path = require('path'),
+	FtpSvr = require('ftp-srv'),
+	FtpDeploy = require('../ftp-deploy.js'),
 
-const ftpDeploy = new FtpDeploy();
+	server = new FtpSvr('ftp://127.0.0.1:21', {
+		anonymous: 'simon',
+	}),
 
-const config = {
-    username: 'simon',
-    password: '', // Optional, prompted if none given
-    host: 'localhost',
-    port: 21,
-    localRoot: path.join(__dirname, 'local'),
-    remoteRoot: path.join(__dirname, 'remote'),
-    exclude: ['.git', '.idea', 'tmp/*']
-};
+	ftpDeploy = new FtpDeploy(),
+	config = {
+		username: 'simon',
+		password: 'simon',
+		host: '127.0.0.1',
+		port: 21,
+		localRoot: path.join(__dirname, 'local'),
+		remoteRoot: path.join(__dirname, 'remote'),
+		exclude: ['.git', '.idea', 'tmp/*'],
+	}
+
+// -----------------------------------------------
+
+server.on('login', ({ username }, resolve, reject) => {
+	if (username === 'simon') {
+		resolve({
+			root: path.join(__dirname, 'remote'),
+		})
+	} else reject('Invalid login')
+})
+
+server.listen()
+
+// -----------------------------------------------
 
 ftpDeploy.on('uploaded', data => {
-    console.log('uploaded:');
-    console.log(data);
-});
+	console.log('uploaded:')
+	console.log(data)
+})
 
 ftpDeploy.on('uploading', data => {
-    console.log('uploading');
-    console.log(data);
-});
+	console.log('uploading')
+	console.log(data)
+})
 
 ftpDeploy.deploy(config, err => {
-    if (err) {
-        console.log(err);
-    } else {
-        console.log('finished');
-    }
-});
+	if (err) {
+		console.log(err)
+	} else {
+		console.log('finished')
+	}
+})

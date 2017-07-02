@@ -1,7 +1,3 @@
 node_modules/
 .DS_Store
-.zedstate
-.vscode/settings.json
-test/remote
-proftpd.conf
-notes.md
+test/remote/*
